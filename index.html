@@ -50,8 +50,7 @@
       color: var(--text-color);
       display: flex;
       flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
     }
 
     header {
@@ -66,14 +65,14 @@
     }
 
     .logo-container h1 {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
 
     .header-actions {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       align-items: center;
     }
 
@@ -81,11 +80,11 @@
       background: var(--card-bg);
       color: var(--text-color);
       border: 2px solid var(--accent-color);
-      padding: 7px 14px;
+      padding: 6px 12px;
       border-radius: 20px;
       cursor: pointer;
       font-weight: bold;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       text-transform: uppercase;
     }
 
@@ -96,10 +95,11 @@
 
     .btn-contact { border-color: var(--border-color); }
 
+    /* Contenedor principal de Escritorio */
     .main-container {
       display: flex;
       flex: 1;
-      height: calc(100vh - 105px);
+      height: calc(100vh - 65px);
     }
 
     #sidebar {
@@ -112,7 +112,7 @@
     }
 
     .search-box {
-      padding: 15px;
+      padding: 12px 15px;
       border-bottom: 1px solid var(--border-color);
     }
 
@@ -130,7 +130,6 @@
       border-color: var(--accent-color);
     }
 
-    /* Estilos del desplegable SEO para AdSense */
     .seo-dropdown {
       border-bottom: 1px solid var(--border-color);
       background: var(--card-bg);
@@ -140,34 +139,30 @@
       width: 100%;
       background: none;
       border: none;
-      padding: 12px 15px;
+      padding: 10px 15px;
       text-align: left;
       color: var(--text-color);
       font-weight: bold;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .seo-dropdown-btn:hover { opacity: 0.8; }
-
     .seo-content {
       display: none;
-      padding: 0 15px 15px 15px;
-      font-size: 0.82rem;
+      padding: 0 15px 12px 15px;
+      font-size: 0.8rem;
       line-height: 1.4;
       opacity: 0.85;
     }
 
     .ad-banner {
-      padding: 8px;
+      padding: 6px;
       text-align: center;
       background: var(--card-bg);
       border-bottom: 1px solid var(--border-color);
-      font-size: 0.7rem;
-      color: #777;
     }
 
     .location-list {
@@ -180,33 +175,33 @@
       background: var(--card-bg);
       border: 1px solid var(--border-color);
       border-radius: 10px;
-      padding: 14px;
-      margin-bottom: 12px;
+      padding: 12px;
+      margin-bottom: 10px;
       cursor: pointer;
     }
 
     .location-card:hover {
       border-color: var(--accent-color);
-      transform: translateY(-2px);
     }
 
     .location-card h3 {
-      font-size: 1rem;
+      font-size: 0.95rem;
       margin-bottom: 4px;
     }
 
     .location-card small {
       color: #888;
       font-weight: 600;
+      font-size: 0.75rem;
     }
 
     .badge {
       display: inline-block;
-      padding: 4px 8px;
+      padding: 3px 6px;
       border-radius: 4px;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: bold;
-      margin-top: 8px;
+      margin-top: 6px;
       text-transform: uppercase;
     }
 
@@ -224,28 +219,53 @@
 
     #map {
       flex: 1;
+      width: 100%;
       height: 100%;
     }
 
     footer {
       background-color: var(--header-bg);
-      padding: 10px 20px;
+      padding: 8px 15px;
       border-top: 1px solid var(--border-color);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.75rem;
-      z-index: 1000;
+      font-size: 0.7rem;
     }
 
     footer a { color: var(--accent-color); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
 
+    /* ADAPTACIÓN MÓVIL CRUCIAL (Pantallas menores de 768px) */
     @media (max-width: 768px) {
-      .main-container { flex-direction: column-reverse; height: calc(100vh - 120px); }
-      #sidebar { width: 100%; height: 45%; }
-      #map { height: 55%; }
-      footer { flex-direction: column; gap: 5px; text-align: center; }
+      body {
+        height: auto;
+        overflow-y: auto;
+      }
+      .main-container {
+        flex-direction: column;
+        height: auto;
+      }
+      #map {
+        width: 100%;
+        height: 400px; /* Altura fija obligatoria para móviles */
+        order: 1;     /* El mapa se muestra primero arriba */
+      }
+      #sidebar {
+        width: 100%;
+        height: auto;
+        order: 2;     /* La lista de puntos se muestra debajo del mapa */
+        border-right: none;
+        border-top: 1px solid var(--border-color);
+      }
+      .location-list {
+        max-height: 450px; /* Altura máxima con scroll para la lista en móvil */
+      }
+      footer {
+        flex-direction: column;
+        gap: 4px;
+        text-align: center;
+        order: 3;
+      }
     }
   </style>
 </head>
@@ -262,24 +282,26 @@
   </header>
 
   <div class="main-container">
+    <!-- Mapa (Arriba en móviles, derecha en PC) -->
+    <div id="map"></div>
+
+    <!-- Barra lateral (Abajo en móviles, izquierda en PC) -->
     <div id="sidebar">
       <div class="search-box">
         <input type="text" id="search-input" placeholder="Buscar sitio o zona (Oleiros, Arteixo...)...">
       </div>
 
-      <!-- Desplegable Informativo para AdSense -->
       <div class="seo-dropdown">
         <button class="seo-dropdown-btn" onclick="toggleSeoText()">
           <span>ℹ️ Acerca de Cristal Koruño & Guía</span>
           <span id="seo-arrow">▼</span>
         </button>
         <div class="seo-content" id="seo-text-content">
-          <p><strong>Cristal Koruño</strong> es tu guía interactiva definitiva para descubrir los secretos mejor guardados y los mejores planes al aire libre en <strong>A Coruña y su área metropolitana</strong> (Oleiros, Arteixo, Cambre, Culleredo y Sada).</p>
-          <p style="margin-top: 6px;">Explora nuestra selección de patrimonio militar abandonado, baterías de costa históricas y búnkeres ocultos (<em>Urbex</em>), o recarga energía con rutas costeras, acantilados de cuarzo blanco y atardeceres únicos en el Atlántico. Utiliza los filtros y haz clic en cualquier marcador del mapa para obtener coordenadas GPS y consejos de seguridad.</p>
+          <p><strong>Cristal Koruño</strong> es tu guía interactiva para descubrir los secretos y planes en <strong>A Coruña y su área metropolitana</strong> (Oleiros, Arteixo, Cambre, Culleredo y Sada).</p>
+          <p style="margin-top: 6px;">Explora patrimonio militar abandonado (<em>Urbex</em>) o rutas costeras y acantilados atlánticos. Haz clic en cualquier marcador para ver coordenadas y consejos.</p>
         </div>
       </div>
 
-      <!-- Bloque publicitario de AdSense -->
       <div class="ad-banner">
         <ins class="adsbygoogle"
              style="display:block"
@@ -294,8 +316,6 @@
 
       <div class="location-list" id="list-container"></div>
     </div>
-
-    <div id="map"></div>
   </div>
 
   <footer>
@@ -303,19 +323,17 @@
     <a href="politicadeprivacidad.html">Política de Privacidad</a>
   </footer>
 
-  <!-- Modal de Contacto -->
   <div id="contact-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:2000; align-items:center; justify-content:center;">
     <div style="background:var(--card-bg); padding:25px; border-radius:12px; width:90%; max-width:450px; border:1px solid var(--border-color); color:var(--text-color); position:relative;">
       <button onclick="document.getElementById('contact-modal').style.display='none'" style="position:absolute; top:10px; right:15px; background:none; border:none; color:var(--text-color); font-size:1.5rem; cursor:pointer;">&times;</button>
       <h2 style="margin-bottom:10px;">📩 Contacto / Enviar Spot</h2>
-      <p style="font-size:0.9rem; margin-bottom:15px; opacity:0.8;">¿Conoces una batería abandonada, ruina o un mirador que no esté en el mapa? Escríbenos:</p>
-      <a href="mailto:cristalkoruño@gmail.com?subject=Nuevo%20Spot%20Cristal%20Koruño" style="display:block; text-align:center; background:var(--accent-color); color:#000; font-weight:bold; padding:12px; border-radius:8px; text-decoration:none; margin-bottom:10px;">
+      <p style="font-size:0.9rem; margin-bottom:15px; opacity:0.8;">¿Conoces una batería o mirador que no esté en el mapa? Escríbenos:</p>
+      <a href="mailto:cristalkoruño@gmail.com?subject=Nuevo%20Spot%20Cristal%20Koruño" style="display:block; text-align:center; background:var(--accent-color); color:#000; font-weight:bold; padding:12px; border-radius:8px; text-decoration:none;">
         Enviar correo a cristalkoruño@gmail.com
       </a>
     </div>
   </div>
 
-  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <script>
@@ -332,7 +350,6 @@
     }
 
     const locations = [
-      // --- URBEX ---
       { id: 1, title: "Batería Militar de Monticaño", type: "urbex", zone: "Pastoriza / Arteixo", coords: [43.3283, -8.4560], desc: "Galerías subterráneas y puestos de mando de la antigua artillería costera de los cañones Vickers.", danger: "Nivel Medio - Linterna imprescindible" },
       { id: 2, title: "Túneles y Búnkeres de San Pedro", type: "urbex", zone: "Monte de San Pedro (A Coruña)", coords: [43.3768, -8.4350], desc: "Galerías y garitas abandonadas bajo el antiguo parque militar.", danger: "Nivel Bajo - Precaución con humedad" },
       { id: 3, title: "Batería Costera de Seixo Blanco / Dexos", type: "urbex", zone: "Oleiros", coords: [43.3850, -8.3320], desc: "Restos de proyectores de luz y puestos de observación militar al borde del acantilado.", danger: "Nivel Medio - Caídas de altura" },
@@ -350,8 +367,7 @@
       { id: 29, title: "Antigua Fábrica de Ladrillos", type: "urbex", zone: "O Burgo / Culleredo", coords: [43.3150, -8.3680], desc: "Chimeneas y restos de arqueología industrial junto a la ría.", danger: "Nivel Medio - Zona industrial degradada" },
       { id: 30, title: "Batería de Punta Herminia (Zonas ocultas)", type: "urbex", zone: "Torre de Hércules / A Coruña", coords: [43.3830, -8.3980], desc: "Antiguos puestos de tiro y pasadizos menos transitados junto al parque escultórico.", danger: "Nivel Bajo - Precaución en los bordes del acantilado" },
 
-      // --- PLANES ENÉRGICOS ---
-      { id: 7, title: "Atardecer en la Rosa de los Vientos", type: "planes", zone: "Torre de Hércules", coords: [43.3858, -8.4065], desc: "Plan top with vistas abiertas al Atlántico y brisa marina intensa.", bestTime: "Atardecer" },
+      { id: 7, title: "Atardecer en la Rosa de los Vientos", type: "planes", zone: "Torre de Hércules", coords: [43.3858, -8.4065], desc: "Plan top con vistas abiertas al Atlántico y brisa marina intensa.", bestTime: "Atardecer" },
       { id: 8, title: "Ruta de los Cantiles de Seixo Blanco", type: "planes", zone: "Monumento Natural Dexos - Oleiros", coords: [43.3880, -8.3280], desc: "Senderismo salvaje por la veta de cuarzo blanco con oleaje impresionante.", bestTime: "Día despejado" },
       { id: 9, title: "Mirador y Banco del Parque de Bens", type: "planes", zone: "Bens (A Coruña)", coords: [43.3665, -8.4345], desc: "Plataforma de madera con panorámica completa de toda la línea de playa de Riazor.", bestTime: "Cualquier hora" },
       { id: 10, title: "Ventana al Atlántico (O Portiño)", type: "planes", zone: "O Portiño / A Coruña", coords: [43.3710, -8.4450], desc: "Escultura icónica frente a las Islas de San Pedro. Zona de rocas ideal para puestas de sol.", bestTime: "Ocaso / Atardecer" },
@@ -377,18 +393,15 @@
 
     function initMap() {
       map = L.map('map').setView([43.3550, -8.3800], 12);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}   /{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap'
-      }).addTo(map);
-
-      // Corrección de la capa de tiles de Leaflet
-      map.eachLayer(layer => { if (layer._url) map.removeLayer(layer); });
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap'
       }).addTo(map);
 
       markersGroup = L.layerGroup().addTo(map);
       renderLocations();
+
+      // Forzar a Leaflet a recalcular el tamaño tras cargar en móvil
+      setTimeout(() => { map.invalidateSize(); }, 300);
     }
 
     function renderLocations(filterText = '') {
@@ -407,7 +420,7 @@
         const marker = L.marker(loc.coords).addTo(markersGroup);
         marker.bindPopup(`
           <div style="font-family: sans-serif;">
-            <strong style="font-size: 1rem;">${loc.title}</strong><br>
+            <strong style="font-size: 0.95rem;">${loc.title}</strong><br>
             <span style="color: #666; font-size: 0.8rem;">📍 ${loc.zone}</span><br><br>
             <p style="font-size: 0.85rem;">${loc.desc}</p><br>
             <small style="font-weight: bold; color: ${loc.type === 'urbex' ? '#e63946' : '#0066ff'};">
@@ -421,7 +434,7 @@
         card.innerHTML = `
           <h3>${loc.title}</h3>
           <small>📍 ${loc.zone}</small>
-          <p style="font-size:0.85rem; margin-top:8px; line-height: 1.3;">${loc.desc}</p>
+          <p style="font-size:0.82rem; margin-top:6px; line-height: 1.3;">${loc.desc}</p>
           <span class="badge ${loc.type === 'urbex' ? 'badge-urbex' : 'badge-planes'}">
             ${loc.type === 'urbex' ? '⚠️ ' + loc.danger : '⚡ ' + loc.bestTime}
           </span>
@@ -430,6 +443,10 @@
         card.onclick = () => {
           map.setView(loc.coords, 14);
           marker.openPopup();
+          // En móvil, al hacer clic en una tarjeta baja la vista automáticamente hacia el mapa de arriba
+          if (window.innerWidth <= 768) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
         };
 
         listContainer.appendChild(card);
@@ -454,6 +471,7 @@
       }
 
       renderLocations(document.getElementById('search-input').value);
+      setTimeout(() => { map.invalidateSize(); }, 200);
     });
 
     document.getElementById('search-input').addEventListener('input', (e) => {
