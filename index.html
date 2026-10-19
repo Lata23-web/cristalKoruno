@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cristal Koruño: Urbex & Planes Enérgicos</title>
+  <title>Cristal Koruño: Guía de Urbex y Planes en A Coruña</title>
   
+  <!-- Vercel Web Analytics -->
+  <script defer src="/_vercel/insights/script.js"></script>
+
+  <!-- Script de Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1393990351272622" crossorigin="anonymous"></script>
-  
+
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  
-  <!-- Google AdSense (Sustituye ca-pub-1393990351272622 por tu ID cuando lo tengas) -->
-  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1393990351272622" crossorigin="anonymous"></script> -->
 
   <style>
     :root {
-      /* Modo Urbex (Oscuro) por defecto */
       --bg-color: #0b0d10;
       --card-bg: #15181e;
       --text-color: #e2e8f0;
@@ -27,7 +27,6 @@
     }
 
     body.mode-planes {
-      /* Modo Planes (Energético y Luminoso) */
       --bg-color: #f0f4f9;
       --card-bg: #ffffff;
       --text-color: #1e293b;
@@ -95,9 +94,7 @@
       color: #000;
     }
 
-    .btn-contact {
-      border-color: var(--border-color);
-    }
+    .btn-contact { border-color: var(--border-color); }
 
     .main-container {
       display: flex;
@@ -133,7 +130,7 @@
       border-color: var(--accent-color);
     }
 
-    /* Estilos del desplegable (Acordeón SEO) */
+    /* Estilos del desplegable SEO para AdSense */
     .seo-dropdown {
       border-bottom: 1px solid var(--border-color);
       background: var(--card-bg);
@@ -154,9 +151,7 @@
       align-items: center;
     }
 
-    .seo-dropdown-btn:hover {
-      opacity: 0.8;
-    }
+    .seo-dropdown-btn:hover { opacity: 0.8; }
 
     .seo-content {
       display: none;
@@ -243,14 +238,8 @@
       z-index: 1000;
     }
 
-    footer a {
-      color: var(--accent-color);
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
-    }
+    footer a { color: var(--accent-color); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
 
     @media (max-width: 768px) {
       .main-container { flex-direction: column-reverse; height: calc(100vh - 120px); }
@@ -278,7 +267,7 @@
         <input type="text" id="search-input" placeholder="Buscar sitio o zona (Oleiros, Arteixo...)...">
       </div>
 
-      <!-- Desplegable Informativo / SEO para AdSense -->
+      <!-- Desplegable Informativo para AdSense -->
       <div class="seo-dropdown">
         <button class="seo-dropdown-btn" onclick="toggleSeoText()">
           <span>ℹ️ Acerca de Cristal Koruño & Guía</span>
@@ -290,18 +279,17 @@
         </div>
       </div>
 
-      <!-- Espacio para Anuncio Google Ads -->
+      <!-- Bloque publicitario de AdSense -->
       <div class="ad-banner">
-        <span>ESPACIO PUBLICITARIO / GOOGLE ADS</span>
-        <!--
         <ins class="adsbygoogle"
              style="display:block"
              data-ad-client="ca-pub-1393990351272622"
              data-ad-slot="1234567890"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        -->
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
       </div>
 
       <div class="location-list" id="list-container"></div>
@@ -315,15 +303,14 @@
     <a href="politicadeprivacidad.html">Política de Privacidad</a>
   </footer>
 
-  <!-- Modal Ventana de Contacto -->
+  <!-- Modal de Contacto -->
   <div id="contact-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:2000; align-items:center; justify-content:center;">
     <div style="background:var(--card-bg); padding:25px; border-radius:12px; width:90%; max-width:450px; border:1px solid var(--border-color); color:var(--text-color); position:relative;">
       <button onclick="document.getElementById('contact-modal').style.display='none'" style="position:absolute; top:10px; right:15px; background:none; border:none; color:var(--text-color); font-size:1.5rem; cursor:pointer;">&times;</button>
       <h2 style="margin-bottom:10px;">📩 Contacto / Enviar Spot</h2>
       <p style="font-size:0.9rem; margin-bottom:15px; opacity:0.8;">¿Conoces una batería abandonada, ruina o un mirador que no esté en el mapa? Escríbenos:</p>
-      
-      <a href="mailto:cristalkoruno@gmail.com?subject=Nuevo%20Spot%20Cristal%20Koruno" style="display:block; text-align:center; background:var(--accent-color); color:#000; font-weight:bold; padding:12px; border-radius:8px; text-decoration:none; margin-bottom:10px;">
-        Enviar correo a cristalkoruno@gmail.com
+      <a href="mailto:cristalkoruño@gmail.com?subject=Nuevo%20Spot%20Cristal%20Koruño" style="display:block; text-align:center; background:var(--accent-color); color:#000; font-weight:bold; padding:12px; border-radius:8px; text-decoration:none; margin-bottom:10px;">
+        Enviar correo a cristalkoruño@gmail.com
       </a>
     </div>
   </div>
@@ -332,7 +319,6 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <script>
-    // Función para abrir/cerrar el desplegable de texto
     function toggleSeoText() {
       const content = document.getElementById('seo-text-content');
       const arrow = document.getElementById('seo-arrow');
@@ -365,7 +351,7 @@
       { id: 30, title: "Batería de Punta Herminia (Zonas ocultas)", type: "urbex", zone: "Torre de Hércules / A Coruña", coords: [43.3830, -8.3980], desc: "Antiguos puestos de tiro y pasadizos menos transitados junto al parque escultórico.", danger: "Nivel Bajo - Precaución en los bordes del acantilado" },
 
       // --- PLANES ENÉRGICOS ---
-      { id: 7, title: "Atardecer en la Rosa de los Vientos", type: "planes", zone: "Torre de Hércules", coords: [43.3858, -8.4065], desc: "Plan top con vistas abiertas al Atlántico y brisa marina intensa.", bestTime: "Atardecer" },
+      { id: 7, title: "Atardecer en la Rosa de los Vientos", type: "planes", zone: "Torre de Hércules", coords: [43.3858, -8.4065], desc: "Plan top with vistas abiertas al Atlántico y brisa marina intensa.", bestTime: "Atardecer" },
       { id: 8, title: "Ruta de los Cantiles de Seixo Blanco", type: "planes", zone: "Monumento Natural Dexos - Oleiros", coords: [43.3880, -8.3280], desc: "Senderismo salvaje por la veta de cuarzo blanco con oleaje impresionante.", bestTime: "Día despejado" },
       { id: 9, title: "Mirador y Banco del Parque de Bens", type: "planes", zone: "Bens (A Coruña)", coords: [43.3665, -8.4345], desc: "Plataforma de madera con panorámica completa de toda la línea de playa de Riazor.", bestTime: "Cualquier hora" },
       { id: 10, title: "Ventana al Atlántico (O Portiño)", type: "planes", zone: "O Portiño / A Coruña", coords: [43.3710, -8.4450], desc: "Escultura icónica frente a las Islas de San Pedro. Zona de rocas ideal para puestas de sol.", bestTime: "Ocaso / Atardecer" },
@@ -391,6 +377,12 @@
 
     function initMap() {
       map = L.map('map').setView([43.3550, -8.3800], 12);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}   /{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
+      }).addTo(map);
+
+      // Corrección de la capa de tiles de Leaflet
+      map.eachLayer(layer => { if (layer._url) map.removeLayer(layer); });
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap'
       }).addTo(map);
