@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cristal Koruño: Guía de Urbex y Planes en A Coruña</title>
+  <meta name="description" content="Mapa interactivo y guía de miradores, rutas costeras, patrimonio militar e industrial en desuso y planes al aire libre en A Coruña, Oleiros, Arteixo, Cambre, Culleredo y Sada.">
   
   <!-- Vercel Web Analytics -->
   <script defer src="/_vercel/insights/script.js"></script>
@@ -48,10 +49,8 @@
     body {
       background-color: var(--bg-color);
       color: var(--text-color);
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
+      display: block;
+      min-height: 100vh;
     }
 
     header {
@@ -63,19 +62,17 @@
       border-bottom: 2px solid var(--border-color);
       z-index: 1000;
       box-shadow: var(--shadow);
-      height: 60px;
-      flex-shrink: 0;
     }
 
     .logo-container h1 {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
 
     .header-actions {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       align-items: center;
     }
 
@@ -83,11 +80,11 @@
       background: var(--card-bg);
       color: var(--text-color);
       border: 2px solid var(--accent-color);
-      padding: 6px 12px;
+      padding: 7px 14px;
       border-radius: 20px;
       cursor: pointer;
       font-weight: bold;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       text-transform: uppercase;
     }
 
@@ -98,18 +95,24 @@
 
     .btn-contact { border-color: var(--border-color); }
 
-    /* CONTENEDOR PRINCIPAL ESCRITORIO */
+    .top-nav a { 
+      color: var(--text-color); 
+      text-decoration: none; 
+      font-size: 0.8rem; 
+      margin: 0 8px; 
+      opacity: 0.85; 
+    }
+    .top-nav a:hover { color: var(--accent-color); opacity: 1; }
+
     .main-container {
       display: flex;
-      flex: 1;
-      height: calc(100vh - 105px);
+      height: calc(100vh - 70px);
+      min-height: 520px;
       width: 100%;
-      overflow: hidden;
     }
 
     #sidebar {
       width: 400px;
-      height: 100%;
       background-color: var(--header-bg);
       border-right: 1px solid var(--border-color);
       display: flex;
@@ -119,7 +122,7 @@
     }
 
     .search-box {
-      padding: 12px 15px;
+      padding: 15px;
       border-bottom: 1px solid var(--border-color);
     }
 
@@ -146,27 +149,29 @@
       width: 100%;
       background: none;
       border: none;
-      padding: 10px 15px;
+      padding: 12px 15px;
       text-align: left;
       color: var(--text-color);
       font-weight: bold;
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
+    .seo-dropdown-btn:hover { opacity: 0.8; }
+
     .seo-content {
       display: none;
-      padding: 0 15px 12px 15px;
-      font-size: 0.8rem;
+      padding: 0 15px 15px 15px;
+      font-size: 0.82rem;
       line-height: 1.4;
       opacity: 0.85;
     }
 
     .ad-banner {
-      padding: 6px;
+      padding: 8px;
       text-align: center;
       background: var(--card-bg);
       border-bottom: 1px solid var(--border-color);
@@ -174,6 +179,7 @@
 
     .location-list {
       flex: 1;
+      min-height: 0;
       overflow-y: auto;
       padding: 15px;
     }
@@ -182,33 +188,33 @@
       background: var(--card-bg);
       border: 1px solid var(--border-color);
       border-radius: 10px;
-      padding: 12px;
-      margin-bottom: 10px;
+      padding: 14px;
+      margin-bottom: 12px;
       cursor: pointer;
     }
 
     .location-card:hover {
       border-color: var(--accent-color);
+      transform: translateY(-2px);
     }
 
     .location-card h3 {
-      font-size: 0.95rem;
+      font-size: 1rem;
       margin-bottom: 4px;
     }
 
     .location-card small {
       color: #888;
       font-weight: 600;
-      font-size: 0.75rem;
     }
 
     .badge {
       display: inline-block;
-      padding: 3px 6px;
+      padding: 4px 8px;
       border-radius: 4px;
-      font-size: 0.7rem;
+      font-size: 0.72rem;
       font-weight: bold;
-      margin-top: 6px;
+      margin-top: 8px;
       text-transform: uppercase;
     }
 
@@ -230,55 +236,55 @@
       width: 100%;
     }
 
+    /* TRUCO DE ESTILO: Modo oscuro automático para el mapa en modo Urbex */
+    body:not(.mode-planes) .leaflet-tile-pane {
+      filter: brightness(0.65) invert(1) contrast(2.5) hue-rotate(200deg) saturate(0.4);
+    }
+
+    .content { 
+      max-width: 900px; 
+      margin: 0 auto; 
+      padding: 40px 20px 20px; 
+      line-height: 1.65; 
+    }
+    .content section { margin-bottom: 36px; }
+    .content h2 { font-size: 1.4rem; margin-bottom: 12px; color: var(--accent-color); }
+    .content h3 { font-size: 1.05rem; margin: 18px 0 6px; }
+    .content p { margin-bottom: 10px; font-size: 0.95rem; }
+    .content ul { margin: 0 0 10px 22px; font-size: 0.95rem; }
+    .content li { margin-bottom: 6px; }
+    .content details { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; }
+    .content summary { cursor: pointer; font-weight: bold; }
+    .content details p { margin-top: 8px; }
+    .notice { border-left: 4px solid var(--accent-danger); background: var(--card-bg); padding: 12px 14px; border-radius: 6px; margin-bottom: 12px; font-size: 0.9rem; }
+    
     footer {
       background-color: var(--header-bg);
-      padding: 8px 15px;
+      padding: 15px 20px;
       border-top: 1px solid var(--border-color);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.7rem;
-      height: 45px;
-      flex-shrink: 0;
+      font-size: 0.75rem;
       z-index: 1000;
     }
 
     footer a { color: var(--accent-color); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    .footer-links { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
 
-    /* ADAPTACIÓN MÓVIL (Pantallas menores o iguales a 768px) */
     @media (max-width: 768px) {
-      body {
-        height: auto;
-        overflow-y: auto;
-      }
-      .main-container {
-        flex-direction: column;
-        height: auto;
-      }
-      #map {
-        width: 100%;
-        height: 380px; /* Altura fija solo para móviles */
-        order: 1;
-      }
-      #sidebar {
-        width: 100%;
-        height: auto;
-        order: 2;
-        border-right: none;
-        border-top: 1px solid var(--border-color);
-      }
-      .location-list {
-        max-height: 450px;
-      }
-      footer {
-        flex-direction: column;
-        gap: 4px;
-        text-align: center;
-        height: auto;
-        padding: 12px;
-        order: 3;
-      }
+      .main-container { flex-direction: column-reverse; height: 92vh; min-height: 560px; }
+      .top-nav { display: none; }
+      #sidebar { width: 100%; height: 45%; }
+      #map { height: 55%; width: 100%; }
+      .content { padding: 28px 16px 10px; }
     }
+
+    #cookie-banner { display: none; position: fixed; left: 16px; right: 16px; bottom: 16px; max-width: 620px; margin: 0 auto; z-index: 3000; background: var(--card-bg); color: var(--text-color); border: 1px solid var(--accent-color); border-radius: 12px; padding: 16px 18px; box-shadow: var(--shadow); font-size: 0.85rem; line-height: 1.5; }
+    #cookie-banner p { margin-bottom: 12px; }
+    #cookie-banner a { color: var(--accent-color); }
+    .cookie-actions { display: flex; gap: 10px; flex-wrap: wrap; }
   </style>
 </head>
 <body>
@@ -287,6 +293,12 @@
     <div class="logo-container">
       <h1 id="app-title">💎 Cristal Koruño</h1>
     </div>
+    <nav class="top-nav" aria-label="Secciones">
+      <a href="#sobre">Sobre el proyecto</a>
+      <a href="#zonas">Zonas</a>
+      <a href="#seguridad">Seguridad</a>
+      <a href="#faq">FAQ</a>
+    </nav>
     <div class="header-actions">
       <button class="btn btn-contact" onclick="document.getElementById('contact-modal').style.display='flex'">📩 Contacto</button>
       <button class="btn" id="mode-toggle">Planes ⚡</button>
@@ -294,10 +306,6 @@
   </header>
 
   <div class="main-container">
-    <!-- Mapa -->
-    <div id="map"></div>
-
-    <!-- Barra lateral -->
     <div id="sidebar">
       <div class="search-box">
         <input type="text" id="search-input" placeholder="Buscar sitio o zona (Oleiros, Arteixo...)...">
@@ -309,31 +317,97 @@
           <span id="seo-arrow">▼</span>
         </button>
         <div class="seo-content" id="seo-text-content">
-          <p><strong>Cristal Koruño</strong> es tu guía interactiva para descubrir los secretos y planes en <strong>A Coruña y su área metropolitana</strong> (Oleiros, Arteixo, Cambre, Culleredo y Sada).</p>
-          <p style="margin-top: 6px;">Explora patrimonio militar abandonado (<em>Urbex</em>) o rutas costeras y acantilados atlánticos. Haz clic en cualquier marcador para ver coordenadas y consejos.</p>
+          <p><strong>Cristal Koruño</strong> es tu guía interactiva definitiva para descubrir los secretos mejor guardados y los mejores planes al aire libre en <strong>A Coruña y su área metropolitana</strong> (Oleiros, Arteixo, Cambre, Culleredo y Sada).</p>
+          <p style="margin-top: 6px;">Explora nuestra selección de patrimonio militar abandonado, baterías de costa históricas y búnkeres ocultos (<em>Urbex</em>), o recarga energía con rutas costeras, acantilados de cuarzo blanco y atardeceres únicos en el Atlántico. Utiliza los filtros y haz clic en cualquier marcador del mapa para ver la descripción del lugar, la zona y consejos de seguridad o el mejor momento para visitarlo.</p>
         </div>
       </div>
 
-      <div class="ad-banner">
+      <div class="ad-banner" id="ad-banner" hidden>
         <ins class="adsbygoogle"
              style="display:block"
              data-ad-client="ca-pub-1393990351272622"
              data-ad-slot="1234567890"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
       </div>
 
       <div class="location-list" id="list-container"></div>
     </div>
+
+    <div id="map"></div>
   </div>
+
+  <main class="content" id="contenido">
+    <section id="sobre">
+      <h2>Sobre Cristal Koruño</h2>
+      <p>Cristal Koruño es un mapa interactivo y una guía independiente de lugares singulares de A Coruña y su área metropolitana: Oleiros, Arteixo, Cambre, Culleredo y Sada. Nació para ayudar a vecinos y visitantes a descubrir rincones del litoral y del interior que quedan fuera de las rutas habituales, con una descripción de cada sitio, su zona y el mejor momento para visitarlo.</p>
+      <p>La guía tiene dos modos. <strong>Planes</strong> reúne miradores, paseos marítimos, rutas fluviales, playas y patrimonio visitable. <strong>Urbex</strong> recoge patrimonio militar e industrial en desuso, pensado para conocerlo desde un punto de vista histórico y fotográfico. Pulsa cualquier ficha o marcador para centrar el mapa y leer los detalles.</p>
+      <p><small>Última actualización: octubre de 2026. Las ubicaciones son orientativas: confirma siempre el acceso y el estado del lugar antes de ir.</small></p>
+    </section>
+
+    <section id="zonas">
+      <h2>Zonas que cubre la guía</h2>
+      <h3>A Coruña</h3>
+      <p>La ciudad concentra buena parte de los planes: la Torre de Hércules, faro romano declarado Patrimonio Mundial por la UNESCO en 2009, el paseo marítimo que recorre la costa durante más de una decena de kilómetros, las playas urbanas de Riazor y Orzán, la Cidade Vella y el Monte de San Pedro, con vistas a la ciudad y al Atlántico.</p>
+      <h3>Oleiros</h3>
+      <p>Al este de la ría, Oleiros combina acantilados, calas y miradores como el de Mera con tramos de costa protegidos, entre ellos el entorno de Dexo. Es una zona muy buena para caminar con mar abierto y para conocer antiguos puestos de vigilancia costera.</p>
+      <h3>Arteixo</h3>
+      <p>Costa abierta y expuesta al oleaje, con acantilados, playas amplias y rutas hacia el puerto exterior. Es el mejor lugar para ver el Atlántico con fuerza en días de mar de fondo, siempre desde una distancia segura.</p>
+      <h3>Cambre</h3>
+      <p>Es la zona de interior de la guía: el río Mero, el embalse de Cecebre y bosque de ribera ideal para paseos en bici o a pie. Aquí también está la iglesia románica de Santa María de Cambre, del siglo XII.</p>
+      <h3>Culleredo</h3>
+      <p>Entre la ría del Burgo y el Monte Xalo, ofrece miradores sobre el área metropolitana, antiguos molinos y rutas cortas de naturaleza muy cerca de la ciudad.</p>
+      <h3>Sada</h3>
+      <p>Villa marinera con puerto, playas y paseo, y acceso a senderos costeros hacia la zona de Costa Dulce.</p>
+    </section>
+
+    <section id="seguridad">
+      <h2>Urbex responsable: seguridad y legalidad</h2>
+      <div class="notice"><strong>Importante:</strong> que un lugar aparezca en este mapa no significa que esté permitido entrar. Muchos enclaves son propiedad privada o del Ministerio de Defensa. Respeta siempre las vallas, los carteles y las señales de prohibido el paso, y no accedas a estructuras cerradas o en ruinas.</div>
+      <ul>
+        <li><strong>Consulta antes de ir.</strong> Averigua quién es el propietario y si el acceso está permitido. Muchas baterías costeras se pueden apreciar perfectamente desde fuera.</li>
+        <li><strong>No fuerces accesos ni dañes nada.</strong> No rompas candados, no hagas pintadas y no te lleves objetos. Deja el lugar como lo encontraste.</li>
+        <li><strong>Riesgos reales.</strong> Suelos inestables, caídas desde acantilados, muros degradados, cristales, humedad y materiales peligrosos como el amianto en edificios antiguos.</li>
+        <li><strong>Ve acompañado y avisa.</strong> Comparte tu ruta con alguien, lleva linterna, calzado cerrado y batería en el móvil.</li>
+        <li><strong>Emergencias.</strong> En España, el 112 atiende cualquier emergencia, también en costa y monte.</li>
+      </ul>
+      <h3>Rutas costeras y de montaña</h3>
+      <ul>
+        <li>Consulta la previsión de viento, oleaje y mareas en MeteoGalicia antes de salir.</li>
+        <li>Mantente lejos del borde de los acantilados y de las rocas bañadas por el oleaje.</li>
+        <li>Lleva calzado con buen agarre, agua y una capa cortavientos: el tiempo cambia rápido.</li>
+        <li>Los mejores momentos para los miradores son el amanecer y el atardecer; en invierno anochece pronto.</li>
+      </ul>
+    </section>
+
+    <section id="faq">
+      <h2>Preguntas frecuentes</h2>
+      <details><summary>¿Es legal hacer urbex?</summary><p>Depende del lugar. Acceder a una propiedad privada o a instalaciones militares sin permiso puede ser infracción o delito. Esta guía es informativa y no anima a entrar en sitios cerrados o vallados.</p></details>
+      <details><summary>¿Los planes de la guía son gratuitos?</summary><p>La mayoría son espacios públicos de acceso libre, como miradores, paseos y playas. Algunos monumentos o museos pueden tener horarios y entrada propia.</p></details>
+      <details><summary>¿Cuál es la mejor época para visitar la zona?</summary><p>De primavera a otoño hay más horas de luz y mejor tiempo para rutas. En invierno el oleaje es más espectacular, pero conviene extremar la precaución.</p></details>
+      <details><summary>¿Las ubicaciones son exactas?</summary><p>Son orientativas. Contrasta siempre el punto con otra fuente y revisa el estado del acceso antes de desplazarte.</p></details>
+      <details><summary>¿Cómo puedo sugerir un lugar o corregir un dato?</summary><p>Pulsa el botón de contacto de la cabecera y escríbenos con el nombre del sitio, la zona y una breve descripción.</p></details>
+    </section>
+  </main>
 
   <footer>
     <span>&copy; 2026 Cristal Koruño - Mapa Urbex y Planes en A Coruña.</span>
-    <a href="politicadeprivacidad.html">Política de Privacidad</a>
+    <div class="footer-links">
+      <a href="#sobre">Sobre el proyecto</a>
+      <a href="#faq">FAQ</a>
+      <a href="#" onclick="document.getElementById('contact-modal').style.display='flex'; return false;">Contacto</a>
+      <a href="#" onclick="openCookieBanner(); return false;">Gestionar cookies</a>
+      <a href="politicadeprivacidad.html">Política de Privacidad</a>
+    </div>
   </footer>
+
+  <div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Aviso de cookies">
+    <p>🍪 Usamos cookies de <strong>Google AdSense</strong> para mostrar anuncios. Puedes cambiar tu decisión en cualquier momento. Más información en la <a href="politicadeprivacidad.html">Política de Privacidad</a>.</p>
+    <div class="cookie-actions">
+      <button class="btn" onclick="setCookieConsent('accepted')">Aceptar</button>
+      <button class="btn btn-contact" onclick="setCookieConsent('rejected')">Rechazar</button>
+    </div>
+  </div>
 
   <div id="contact-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:2000; align-items:center; justify-content:center;">
     <div style="background:var(--card-bg); padding:25px; border-radius:12px; width:90%; max-width:450px; border:1px solid var(--border-color); color:var(--text-color); position:relative;">
@@ -346,6 +420,7 @@
     </div>
   </div>
 
+  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <script>
@@ -393,11 +468,19 @@
       { id: 23, title: "Acantilados y Faro de Suevos", type: "planes", zone: "Arteixo", coords: [43.3490, -8.4720], desc: "Vistas espectaculares del oleaje chocando contra las rocas y el puerto exterior.", bestTime: "Día de mar de fondo / Atardecer" },
       { id: 24, title: "Espigón del Puerto y Muelle de Calvo Sotelo", type: "planes", zone: "Centro / A Coruña", coords: [43.3680, -8.3980], desc: "Caminata urbana enérgica bordeando el mar en plena zona portuaria.", bestTime: "Atardecer" },
       { id: 25, title: "Mirador da Rabadeira", type: "planes", zone: "Oleiros", coords: [43.3380, -8.3510], desc: "Vista en altura sobre Santa Cruz, el castillo y la ría.", bestTime: "Atardecer / Noche" },
-      { id: 31, title: "Pasarela y Acantilados de Mera", type: "planes", zone: "Mera / Oleiros", coords: [43.3850, -8.3480], desc: "Paseo de madera sobre la costa con vistas directas a las Islas Cíes norteñas y la bahía.", bestTime: "Mañanas soleadas" },
+      { id: 31, title: "Pasarela y Acantilados de Mera", type: "planes", zone: "Mera / Oleiros", coords: [43.3850, -8.3480], desc: "Paseo de madera sobre la costa con vistas directas a la bahía y al litoral coruñés.", bestTime: "Mañanas soleadas" },
       { id: 32, title: "Mirador de Suevos y Costa Brava Coruñesa", type: "planes", zone: "Arteixo", coords: [43.3520, -8.4810], desc: "Ruta de costa virgen perfecta para desconectar del ruido urbano.", bestTime: "Tarde de viento" },
       { id: 33, title: "Paseo Marítimo de O Parrote a San Amaro", type: "planes", zone: "A Coruña Ciudad", coords: [43.3710, -8.3950], desc: "El clásico paseo enérgico bordeando el Castillo de San Antón y las calas urbanas.", bestTime: "Cualquier hora" },
       { id: 34, title: "Cascada y Entorno del Río Barcés", type: "planes", zone: "Abegondo / Cambre", coords: [43.2650, -8.3120], desc: "Ruta de interior con saltos de agua, sombra de árboles centenarios y aire puro.", bestTime: "Mañana de otoño o primavera" },
-      { id: 35, title: "Mirador de Penas Do Castelo", type: "planes", zone: "Carral", coords: [43.2450, -8.3420], desc: "Formaciones rocosas singulares con vistas espectaculares hacia los valles del interior.", bestTime: "Atardecer" }
+      { id: 35, title: "Mirador de Penas Do Castelo", type: "planes", zone: "Carral", coords: [43.2450, -8.3420], desc: "Formaciones rocosas singulares con vistas espectaculares hacia los valles del interior.", bestTime: "Atardecer" },
+      { id: 36, title: "Plaza de María Pita y Cidade Vella", type: "planes", zone: "Centro / A Coruña", coords: [43.3712, -8.3960], desc: "Paseo cultural por la plaza del Ayuntamiento y las calles históricas de la ciudad vieja, con terrazas y mucho ambiente.", bestTime: "Mañana / Tarde" },
+      { id: 37, title: "Castillo de San Antón", type: "planes", zone: "Paseo Marítimo / A Coruña", coords: [43.3667, -8.3897], desc: "Fortaleza del siglo XVI sobre un islote a la entrada del puerto, hoy museo con vistas a la bahía.", bestTime: "Horario de museo" },
+      { id: 38, title: "Playas de Riazor y Orzán", type: "planes", zone: "A Coruña Ciudad", coords: [43.3705, -8.4140], desc: "Arenales urbanos con paseo marítimo ideal para caminar, correr o ver surfistas con buen oleaje.", bestTime: "Mañana / Atardecer" },
+      { id: 39, title: "Parque y Mirador del Monte de San Pedro", type: "planes", zone: "Monte de San Pedro / A Coruña", coords: [43.3790, -8.4360], desc: "Zona verde elevada con vistas amplias de la ciudad, la ría y el Atlántico.", bestTime: "Atardecer / Día despejado" },
+      { id: 40, title: "Marina y Jardines de Méndez Núñez", type: "planes", zone: "Centro / A Coruña", coords: [43.3705, -8.3945], desc: "Paseo tranquilo junto a las galerías de cristal de la Marina y los jardines más céntricos de la ciudad.", bestTime: "Tarde / Atardecer" },
+      { id: 41, title: "Castillo de Santa Cruz", type: "planes", zone: "Oleiros", coords: [43.3510, -8.3585], desc: "Castillo en una pequeña isla unida a tierra, rodeado de playa y rutas costeras.", bestTime: "Mañana / Atardecer" },
+      { id: 42, title: "Iglesia románica de Santa María de Cambre", type: "planes", zone: "Cambre", coords: [43.2957, -8.3470], desc: "Templo románico del siglo XII, uno de los monumentos más valiosos del área metropolitana.", bestTime: "Mañana / Tarde" },
+      { id: 43, title: "Embalse de Cecebre y entorno del Mero", type: "planes", zone: "Cambre / Abegondo", coords: [43.2700, -8.3300], desc: "Paisaje de agua y bosque con rutas tranquilas y buenas zonas para fotografía y observación de aves.", bestTime: "Mañana / Otoño y primavera" }
     ];
 
     let currentMode = 'urbex';
@@ -405,14 +488,16 @@
 
     function initMap() {
       map = L.map('map').setView([43.3550, -8.3800], 12);
+
+      // Usamos OpenStreetMap estándar de forma universal y gratuita (sin API keys)
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap'
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
       }).addTo(map);
 
       markersGroup = L.layerGroup().addTo(map);
       renderLocations();
 
-      // Forzar recálculo del mapa para escritorio y móvil
       setTimeout(() => { map.invalidateSize(); }, 250);
     }
 
@@ -487,6 +572,26 @@
 
     document.getElementById('search-input').addEventListener('input', (e) => {
       renderLocations(e.target.value);
+    });
+
+    function getConsent() { try { return localStorage.getItem('ck_consent'); } catch (e) { return null; } }
+    function openCookieBanner() { document.getElementById('cookie-banner').style.display = 'block'; }
+    function enableAds() {
+      const box = document.getElementById('ad-banner');
+      box.hidden = false;
+      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) { console.error(e); }
+    }
+    function setCookieConsent(value) {
+      const previous = getConsent();
+      try { localStorage.setItem('ck_consent', value); } catch (e) {}
+      document.getElementById('cookie-banner').style.display = 'none';
+      if (value === 'accepted') { enableAds(); }
+      else if (previous === 'accepted') { location.reload(); }
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      const c = getConsent();
+      if (c === 'accepted') enableAds();
+      else if (c !== 'rejected') openCookieBanner();
     });
 
     window.onload = initMap;
