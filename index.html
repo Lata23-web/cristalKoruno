@@ -593,11 +593,11 @@
         return;
       }
 
-      // 🗺️ FUERZA A LEAFLET A REDIBUJARSE TRAS OCULTAR EL BANNER
+      // Forzar a Leaflet a recalcular el tamaño tras ocultar el banner flotante
       if (typeof map !== 'undefined' && map !== null) {
         setTimeout(() => {
           map.invalidateSize();
-        }, 300); // Pequeño retardo para que el DOM termine de recolocarse
+        }, 300); // 300ms de retardo para dar tiempo a que el navegador recoloque el CSS flexbox
       }
     }
     
