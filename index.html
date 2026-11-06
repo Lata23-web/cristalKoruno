@@ -581,13 +581,26 @@
       box.hidden = false;
       try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) { console.error(e); }
     }
-    function setCookieConsent(value) {
+   function setCookieConsent(value) {
       const previous = getConsent();
       try { localStorage.setItem('ck_consent', value); } catch (e) {}
       document.getElementById('cookie-banner').style.display = 'none';
-      if (value === 'accepted') { enableAds(); }
-      else if (previous === 'accepted') { location.reload(); }
+      
+      if (value === 'accepted') { 
+        enableAds(); 
+      } else if (previous === 'accepted') { 
+        location.reload(); 
+        return;
+      }
+
+      // 🗺️ FUERZA A LEAFLET A REDIBUJARSE TRAS OCULTAR EL BANNER
+      if (typeof map !== 'undefined' && map !== null) {
+        setTimeout(() => {
+          map.invalidateSize();
+        }, 300); // Pequeño retardo para que el DOM termine de recolocarse
+      }
     }
+    
     document.addEventListener('DOMContentLoaded', () => {
       const c = getConsent();
       if (c === 'accepted') enableAds();
