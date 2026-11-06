@@ -236,7 +236,6 @@
       width: 100%;
     }
 
-    /* TRUCO DE ESTILO: Modo oscuro automático para el mapa en modo Urbex */
     body:not(.mode-planes) .leaflet-tile-pane {
       filter: brightness(0.65) invert(1) contrast(2.5) hue-rotate(200deg) saturate(0.4);
     }
@@ -487,9 +486,11 @@
     let map, markersGroup;
 
     function initMap() {
+      // Evitar inicializar el mapa dos veces si ya existe
+      if (map) return;
+
       map = L.map('map').setView([43.3550, -8.3800], 12);
 
-      // Usamos OpenStreetMap estándar de forma universal y gratuita (sin API keys)
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; OpenStreetMap contributors'
@@ -498,10 +499,14 @@
       markersGroup = L.layerGroup().addTo(map);
       renderLocations();
 
-      setTimeout(() => { map.invalidateSize(); }, 250);
+      // Forzar renderizado inicial tras crear el mapa
+      setTimeout(() => { 
+        map.invalidateSize(); 
+      }, 300);
     }
 
     function renderLocations(filterText = '') {
+      if (!markersGroup) return;
       markersGroup.clearLayers();
       const listContainer = document.getElementById('list-container');
       listContainer.innerHTML = '';
@@ -568,28 +573,10 @@
 
       renderLocations(document.getElementById('search-input').value);
       
-      // Forzar recálculo del mapa también en móvil al cambiar de modo
-      if (typeof map !== 'undefined' && map !== null) {
-        setTimeout(() => {
-          map.invalidateSize();
-        }, 300);
+      // Forzar redimensionado del mapa tras cambiar de modo
+      if (map) {
+        setTimeout(() => { map.invalidateSize(); }, 250);
       }
-    });
-
-      if (currentMode === 'urbex') {
-        currentMode = 'planes';
-        body.classList.add('mode-planes');
-        title.innerText = "⚡ Cristal Koruño Planes";
-        btn.innerText = "Urbex 👾";
-      } else {
-        currentMode = 'urbex';
-        body.classList.remove('mode-planes');
-        title.innerText = "💎 Cristal Koruño Urbex";
-        btn.innerText = "Planes ⚡";
-      }
-
-      renderLocations(document.getElementById('search-input').value);
-      setTimeout(() => { map.invalidateSize(); }, 200);
     });
 
     document.getElementById('search-input').addEventListener('input', (e) => {
@@ -603,7 +590,8 @@
       box.hidden = false;
       try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) { console.error(e); }
     }
-   function setCookieConsent(value) {
+
+    function setCookieConsent(value) {
       const previous = getConsent();
       try { localStorage.setItem('ck_consent', value); } catch (e) {}
       document.getElementById('cookie-banner').style.display = 'none';
@@ -615,21 +603,31 @@
         return;
       }
 
-      // Forzar a Leaflet a recalcular el tamaño tras ocultar el banner flotante
-      if (typeof map !== 'undefined' && map !== null) {
+      // Forzar a Leaflet a redibujarse correctamente tras cerrar el banner en móvil y escritorio
+      if (map) {
         setTimeout(() => {
           map.invalidateSize();
-        }, 300); // 300ms de retardo para dar tiempo a que el navegador recoloque el CSS flexbox
+        }, 300);
       }
     }
     
+    // Escuchar cambios de tamaño de pantalla o rotación del móvil
+    window.addEventListener('resize', () => {
+      if (map) {
+        setTimeout(() => {
+          map.invalidateSize();
+        }, 250);
+      }
+    });
+
     document.addEventListener('DOMContentLoaded', () => {
       const c = getConsent();
       if (c === 'accepted') enableAds();
       else if (c !== 'rejected') openCookieBanner();
+      
+      // Inicializar el mapa de forma segura al cargar el DOM
+      initMap();
     });
-
-    window.onload = initMap;
   </script>
 </body>
 </html>
