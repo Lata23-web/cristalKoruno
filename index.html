@@ -567,6 +567,28 @@
       }
 
       renderLocations(document.getElementById('search-input').value);
+      
+      // Forzar recálculo del mapa también en móvil al cambiar de modo
+      if (typeof map !== 'undefined' && map !== null) {
+        setTimeout(() => {
+          map.invalidateSize();
+        }, 300);
+      }
+    });
+
+      if (currentMode === 'urbex') {
+        currentMode = 'planes';
+        body.classList.add('mode-planes');
+        title.innerText = "⚡ Cristal Koruño Planes";
+        btn.innerText = "Urbex 👾";
+      } else {
+        currentMode = 'urbex';
+        body.classList.remove('mode-planes');
+        title.innerText = "💎 Cristal Koruño Urbex";
+        btn.innerText = "Planes ⚡";
+      }
+
+      renderLocations(document.getElementById('search-input').value);
       setTimeout(() => { map.invalidateSize(); }, 200);
     });
 
