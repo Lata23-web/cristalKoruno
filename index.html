@@ -422,7 +422,7 @@
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-  <script>
+ <script>
     function toggleSeoText() {
       const content = document.getElementById('seo-text-content');
       const arrow = document.getElementById('seo-arrow');
@@ -433,6 +433,8 @@
         content.style.display = 'block';
         arrow.innerText = '▲';
       }
+      // Reajustar mapa si cambia la altura del sidebar al desplegar el SEO
+      forceMapResize();
     }
 
     const locations = [
@@ -457,7 +459,7 @@
       { id: 8, title: "Ruta de los Cantiles de Seixo Blanco", type: "planes", zone: "Monumento Natural Dexos - Oleiros", coords: [43.3880, -8.3280], desc: "Senderismo salvaje por la veta de cuarzo blanco con oleaje impresionante.", bestTime: "Día despejado" },
       { id: 9, title: "Mirador y Banco del Parque de Bens", type: "planes", zone: "Bens (A Coruña)", coords: [43.3665, -8.4345], desc: "Plataforma de madera con panorámica completa de toda la línea de playa de Riazor.", bestTime: "Cualquier hora" },
       { id: 10, title: "Ventana al Atlántico (O Portiño)", type: "planes", zone: "O Portiño / A Coruña", coords: [43.3710, -8.4450], desc: "Escultura icónica frente a las Islas de San Pedro. Zona de rocas ideal para puestas de sol.", bestTime: "Ocaso / Atardecer" },
-      { id: 11, title: "Mirador Faro de Mera", type: "planes", zone: "Mera (Oleiros)", coords: [43.3800, -8.3420], desc: "Vistas privilegiadas en diagonal del skyline de A Coruña y la Torre de Hércules.", bestTime: "Tarde / Noche" },
+      { id: 11, title: "Mirador Faro de Mera", type: "planes", zone: "Mera (Oleiros)", coords: [43.3800, -8.3420], desc: "Vistas privilegedas en diagonal del skyline de A Coruña y la Torre de Hércules.", bestTime: "Tarde / Noche" },
       { id: 12, title: "Paseo Fluvial del Río Mero y Cambre", type: "planes", zone: "Cambre / Cecebre", coords: [43.2920, -8.3410], desc: "Ruta enérgica en bici o a pie rodeada de bosque de ribera tradicional gallego.", bestTime: "Mañana / Tarde" },
       { id: 13, title: "Playa y Acantilados de Sabón", type: "planes", zone: "Arteixo", coords: [43.3280, -8.5020], desc: "Oleaje fuerte, brisa marina pura y ruta costera hacia el Puerto Exterior.", bestTime: "Marea baja" },
       { id: 14, title: "Ruta Mariñán - Costa Doce", type: "planes", zone: "Sada", coords: [43.3678, -8.2548], desc: "Sendero costero entre acantilados y vegetación marítima hasta el Mirador da Ría.", bestTime: "Mañanas de primavera/verano" },
@@ -483,13 +485,32 @@
     ];
 
     let currentMode = 'urbex';
-    let map, markersGroup;
+    let map = null;
+    let markersGroup = null;
+
+    // Función universal para forzar a Leaflet a adaptarse al layout en varios intervalos
+    function forceMapResize() {
+      if (!map) return;
+      [100, 300, 600, 1000].forEach(delay => {
+        setTimeout(() => {
+          if (map) map.invalidateSize();
+        }, delay);
+      });
+    }
 
     function initMap() {
-      // Evitar inicializar el mapa dos veces si ya existe
-      if (map) return;
+      const mapDiv = document.getElementById('map');
+      if (!mapDiv) return;
 
-      map = L.map('map').setView([43.3550, -8.3800], 12);
+      if (map !== null) {
+        map.remove();
+        map = null;
+      }
+
+      map = L.map('map', {
+        zoomControl: true,
+        fadeAnimation: false
+      }).setView([43.3550, -8.3800], 12);
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -498,11 +519,7 @@
 
       markersGroup = L.layerGroup().addTo(map);
       renderLocations();
-
-      // Forzar renderizado inicial tras crear el mapa
-      setTimeout(() => { 
-        map.invalidateSize(); 
-      }, 300);
+      forceMapResize();
     }
 
     function renderLocations(filterText = '') {
@@ -572,11 +589,7 @@
       }
 
       renderLocations(document.getElementById('search-input').value);
-      
-      // Forzar redimensionado del mapa tras cambiar de modo
-      if (map) {
-        setTimeout(() => { map.invalidateSize(); }, 250);
-      }
+      forceMapResize();
     });
 
     document.getElementById('search-input').addEventListener('input', (e) => {
@@ -585,49 +598,49 @@
 
     function getConsent() { try { return localStorage.getItem('ck_consent'); } catch (e) { return null; } }
     function openCookieBanner() { document.getElementById('cookie-banner').style.display = 'block'; }
+    
     function enableAds() {
       const box = document.getElementById('ad-banner');
-      box.hidden = false;
-      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) { console.error(e); }
+      if (box) {
+        box.hidden = false;
+        try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) {}
+      }
     }
 
     function setCookieConsent(value) {
-      const previous = getConsent();
       try { localStorage.setItem('ck_consent', value); } catch (e) {}
-      document.getElementById('cookie-banner').style.display = 'none';
+      
+      const banner = document.getElementById('cookie-banner');
+      if (banner) banner.style.display = 'none';
       
       if (value === 'accepted') { 
         enableAds(); 
-      } else if (previous === 'accepted') { 
-        location.reload(); 
-        return;
       }
 
-      // Forzar a Leaflet a redibujarse correctamente tras cerrar el banner en móvil y escritorio
-      if (map) {
-        setTimeout(() => {
-          map.invalidateSize();
-        }, 300);
-      }
+      // Disparar recálculo inmediato y progresivo
+      forceMapResize();
     }
     
-    // Escuchar cambios de tamaño de pantalla o rotación del móvil
     window.addEventListener('resize', () => {
-      if (map) {
-        setTimeout(() => {
-          map.invalidateSize();
-        }, 250);
-      }
+      forceMapResize();
     });
 
     document.addEventListener('DOMContentLoaded', () => {
-      const c = getConsent();
-      if (c === 'accepted') enableAds();
-      else if (c !== 'rejected') openCookieBanner();
-      
-      // Inicializar el mapa de forma segura al cargar el DOM
       initMap();
+
+      const c = getConsent();
+      if (c === 'accepted') {
+        enableAds();
+      } else if (c !== 'rejected') {
+        openCookieBanner();
+      }
+      
+      forceMapResize();
     });
+
+    window.onload = () => {
+      forceMapResize();
+    };
   </script>
 </body>
 </html>
